@@ -2,6 +2,7 @@ const { Client } = require("pg");
 const express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
+const bcrypt = require("bcryptjs")
 
 const port = 3000;
 const app = express();
@@ -52,6 +53,24 @@ async function createTable() {
     }
 }
 
+app.post("/register" , async (req,res) => {
+    const {
+        full_name, email, date_of_birth, mobile_number, gender, occupation,
+        id_number, issuance_authority, role, address, password
+    } = req.body;
+    const query = `INSERT INTO users
+    (full_name, email, date_of_birth, mobile_number, gender, occupation,
+    id_number, issuance_authority, role, address, password)
+    VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
+    try {
+        const result = await client.query(query , [full_name, email, date_of_birth, mobile_number, gender, occupation,
+            id_number, issuance_authority, role, address, password])
+        res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)    
+    } catch (err) {
+        console.error("Error Inserting Data",err);
+        res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");
+    }
+})
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
 })

@@ -12,39 +12,40 @@
 <body>
     <div class="container">
         <header>Registration</header>
-        <form action="/register" method = "POST">
+        <form action="/register" method="POST">
             <div class="form first">
                 <div class="details perosnal">
                     <span class="title">Perosnal Details</span>
                     <div class="fields">
                         <div class="input-field">
                             <label>Full Name</label>
-                            <input type="text" placeholder="Enter Your Name" required>
+                            <input type="text" name="full_name" placeholder="Enter Your Name" required>
                         </div>
 
                         <div class="input-field">
                             <label>Email</label>
-                            <input type="text" placeholder="Enter Your Email" required>
+                            <input type="text" name="email" placeholder="Enter Your Email" required>
                         </div>
 
                         <div class="input-field">
                             <label>Date OF Birth</label>
-                            <input type="date" placeholder="Enter Birth Date" required>
+                            <input type="date" name="date_of_birth" placeholder="Enter Birth Date" required>
                         </div>
 
                         <div class="input-field">
                             <label>Mobile Number</label>
-                            <input type="number" placeholder="Enter Mobile Number" pattern="\d{11}" required title="Mobile number must be exactly 11 digits">
+                            <input type="number" name="mobile_number" placeholder="Enter Mobile Number" pattern="\d{11}"
+                                required title="Mobile number must be exactly 11 digits">
                         </div>
 
                         <div class="input-field">
                             <label>Gender</label>
-                            <input type="text" placeholder="Enter Your Gender" required>
+                            <input type="text" name="gender" placeholder="Enter Your Gender" required>
                         </div>
 
                         <div class="input-field">
                             <label>Occupation</label>
-                            <input type="text" placeholder="Enter Your Occupation" required>
+                            <input type="text" name="occupation" placeholder="Enter Your Occupation" required>
                         </div>
                     </div>
                 </div>
@@ -56,12 +57,14 @@
                         <div class="fields">
                             <div class="input-field">
                                 <label>ID Number</label>
-                                <input type="number" placeholder="Enter ID number" pattern="\d{13}" required title = "CNIC number must be 13 digits">
+                                <input type="number" name="id_number" placeholder="Enter ID number" pattern="\d{13}"
+                                    required title="CNIC number must be 13 digits">
                             </div>
 
                             <div class="input-field">
                                 <label>Issuance Authority</label>
-                                <input type="text" placeholder="Enter Your Issuance Authority" required>
+                                <input type="text" name="issuance_authority" placeholder="Enter Your Issuance Authority"
+                                    required>
                             </div>
 
                             <div class="input-field">
@@ -76,20 +79,20 @@
 
                             <div class="input-field">
                                 <label>Address</label>
-                                <input type="text" placeholder="Enter Your Address" required>
+                                <input type="text" name="address" placeholder="Enter Your Address" required>
                             </div>
 
                             <div class="input-field">
                                 <label>Password</label>
-                                <input type="text" placeholder="Enter Your Password" required>
+                                <input type="text" name="password" placeholder="Enter Your Password" required>
                             </div>
 
                             <div class="input-field">
                                 <label>Confirm Password</label>
-                                <input type="text" placeholder="Confirm Your Password" required>
+                                <input type="text" name="confirm_password" placeholder="Confirm Your Password" required>
                             </div>
                         </div>
-                        <button class="nextBtn">
+                        <button type="submit" class="nextBtn">
                             <span class="btnText">Next</span>
                             <i class="uil uil-navigator"></i>
                         </button>
@@ -102,5 +105,3 @@
 </body>
 
 </html>
-
-
