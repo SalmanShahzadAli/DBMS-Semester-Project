@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>Registration</header>
+        <form action="#">
+            <div class="form first">
+                <div class="details perosnal">
+                    <span class="title">Perosnal Details</span>
+                    <div class="fields">
+                        <div class="input-field">
+                            <label>Full Name</label>
+                            <input type="text" placeholder="Enter Your Name" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Email</label>
+                            <input type="text" placeholder="Enter Your Email" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Date OF Birth</label>
+                            <input type="date" placeholder="Enter Birth Date" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Mobile Number</label>
+                            <input type="number" placeholder="Enter Mobile Number" pattern="\d{11}" required title="Mobile number must be exactly 11 digits">
+                        </div>
+
+                        <div class="input-field">
+                            <label>Gender</label>
+                            <input type="text" placeholder="Enter Your Gender" required>
+                        </div>
+
+                        <div class="input-field">
+                            <label>Occupation</label>
+                            <input type="text" placeholder="Enter Your Occupation" required>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form first">
+                    <div class="details id">
+                        <span class="title">Identity Details</span>
+                        <div class="fields">
+                            <div class="input-field">
+                                <label>ID Number</label>
+                                <input type="number" placeholder="Enter ID number" pattern="\d{13}" required title = "CNIC number must be 13 digits">
+                            </div>
+
+                            <div class="input-field">
+                                <label>Issuance Authority</label>
+                                <input type="text" placeholder="Enter Your Issuance Authority" required>
+                            </div>
+
+                            <div class="input-field">
+                                <label>Choose Your Role</label>
+                                <select id="role" name="role">
+                                    <option value="Patient">Patient</option>
+                                    <option value="Doctor">Doctor</option>
+                                    <option value="Admin">Admin</option>
+                                    <option value="Receptionist">Receptionist</option>
+                                </select>
+                            </div>
+
+                            <div class="input-field">
+                                <label>Address</label>
+                                <input type="text" placeholder="Enter Your Address" required>
+                            </div>
+
+                            <div class="input-field">
+                                <label>Password</label>
+                                <input type="text" placeholder="Enter Your Password" required>
+                            </div>
+
+                            <div class="input-field">
+                                <label>Confirm Password</label>
+                                <input type="text" placeholder="Confirm Your Password" required>
+                            </div>
+                        </div>
+                        <button class="nextBtn">
+                            <span class="btnText">Next</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                    </div>
+                </div>
+
+
+        </form>
+    </div>
+</body>
+
+</html>
+
+
