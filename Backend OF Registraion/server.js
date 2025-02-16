@@ -4,6 +4,7 @@ var path = require("path");
 var bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs")
 
+const saltRounds = 10;
 const port = 3000;
 const app = express();
 app.use(express.json());
@@ -28,7 +29,7 @@ client.connect()
     .catch((err) => console.error("Error Connecting To Database", err.stack));
 
 app.get("/", (req, res) => {
-    res.render('form')
+    res.render('form',{errorMessage: null});
 })
 async function createTable() {
     const query = `CREATE TABLE IF NOT EXISTS users (
@@ -56,16 +57,25 @@ async function createTable() {
 app.post("/register" , async (req,res) => {
     const {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
-        id_number, issuance_authority, role, address, password
+        id_number, issuance_authority, role, address, password ,confirm_password
     } = req.body;
+
+    if (password != confirm_password)
+    {
+        return res.render("form",{ errorMessage : "❌Registration Failed As Passwords Do Not Match Please Try Again."});
+    }
+
+    try
+    {
+    const hashedPassword = await bcrypt.hash(password,saltRounds);
     const query = `INSERT INTO users
     (full_name, email, date_of_birth, mobile_number, gender, occupation,
     id_number, issuance_authority, role, address, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
-    try {
-        const result = await client.query(query , [full_name, email, date_of_birth, mobile_number, gender, occupation,
-            id_number, issuance_authority, role, address, password])
-        res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)    
+    const result = await client.query(query , [full_name, email, date_of_birth, mobile_number, gender, occupation,
+        id_number, issuance_authority, role, address, hashedPassword]);
+
+    res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)    
     } catch (err) {
         console.error("Error Inserting Data",err);
         res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");

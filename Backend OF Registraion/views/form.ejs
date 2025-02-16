@@ -12,6 +12,9 @@
 <body>
     <div class="container">
         <header>Registration</header>
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <p style="color: red; font-weight: bold;"><%= errorMessage %></p>
+        <% } %>    
         <form action="/register" method="POST">
             <div class="form first">
                 <div class="details perosnal">
@@ -84,12 +87,14 @@
 
                             <div class="input-field">
                                 <label>Password</label>
-                                <input type="text" name="password" placeholder="Enter Your Password" required>
+                                <input type="text" name="password" placeholder="Enter Your Password" 
+                                pattern = ".{8,}" required title = "Password Must Have 11 Characters">
                             </div>
 
                             <div class="input-field">
                                 <label>Confirm Password</label>
-                                <input type="text" name="confirm_password" placeholder="Confirm Your Password" required>
+                                <input type="text" name="confirm_password" placeholder="Confirm Your Password"
+                                pattern = ".{8,}" required title = "Password Must Have 11 Characters">
                             </div>
                         </div>
                         <button type="submit" class="nextBtn">
@@ -103,5 +108,6 @@
         </form>
     </div>
 </body>
+
 
 </html>
