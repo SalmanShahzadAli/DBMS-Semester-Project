@@ -12,100 +12,105 @@
 <body>
     <div class="container">
         <header>Registration</header>
-        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
-            <p style="color: red; font-weight: bold;"><%= errorMessage %></p>
-        <% } %>    
-        <form action="/register" method="POST">
-            <div class="form first">
-                <div class="details perosnal">
-                    <span class="title">Perosnal Details</span>
-                    <div class="fields">
-                        <div class="input-field">
-                            <label>Full Name</label>
-                            <input type="text" name="full_name" placeholder="Enter Your Name" required>
-                        </div>
+        <% if (typeof errorMessage !=='undefined' && errorMessage) { %>
+            <p style="color: red; font-weight: bold;">
+                <%= errorMessage %>
+            </p>
+            <% } %>
+                <form action="/register" method="POST">
+                    <div class="form first">
+                        <div class="details perosnal">
+                            <span class="title">Perosnal Details</span>
+                            <div class="fields">
+                                <div class="input-field">
+                                    <label>Full Name</label>
+                                    <input type="text" name="full_name" placeholder="Enter Your Name" required>
+                                </div>
 
-                        <div class="input-field">
-                            <label>Email</label>
-                            <input type="text" name="email" placeholder="Enter Your Email" required>
-                        </div>
+                                <div class="input-field">
+                                    <label>Email</label>
+                                    <input type="text" name="email" placeholder="Enter Your Email" required>
+                                </div>
 
-                        <div class="input-field">
-                            <label>Date OF Birth</label>
-                            <input type="date" name="date_of_birth" placeholder="Enter Birth Date" required>
-                        </div>
+                                <div class="input-field">
+                                    <label>Date OF Birth</label>
+                                    <input type="date" name="date_of_birth" placeholder="Enter Birth Date" required>
+                                </div>
 
-                        <div class="input-field">
-                            <label>Mobile Number</label>
-                            <input type="number" name="mobile_number" placeholder="Enter Mobile Number" pattern="\d{11}"
-                                required title="Mobile number must be exactly 11 digits">
-                        </div>
+                                <div class="input-field">
+                                    <label>Mobile Number</label>
+                                    <input type="number" name="mobile_number" placeholder="Enter Mobile Number"
+                                        pattern="\d{11}" required title="Mobile number must be exactly 11 digits">
+                                </div>
 
-                        <div class="input-field">
-                            <label>Gender</label>
-                            <input type="text" name="gender" placeholder="Enter Your Gender" required>
-                        </div>
+                                <div class="input-field">
+                                    <label>Gender</label>
+                                    <input type="text" name="gender" placeholder="Enter Your Gender" required>
+                                </div>
 
-                        <div class="input-field">
-                            <label>Occupation</label>
-                            <input type="text" name="occupation" placeholder="Enter Your Occupation" required>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="form first">
-                    <div class="details id">
-                        <span class="title">Identity Details</span>
-                        <div class="fields">
-                            <div class="input-field">
-                                <label>ID Number</label>
-                                <input type="number" name="id_number" placeholder="Enter ID number" pattern="\d{13}"
-                                    required title="CNIC number must be 13 digits">
-                            </div>
-
-                            <div class="input-field">
-                                <label>Issuance Authority</label>
-                                <input type="text" name="issuance_authority" placeholder="Enter Your Issuance Authority"
-                                    required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Choose Your Role</label>
-                                <select id="role" name="role">
-                                    <option value="Patient">Patient</option>
-                                    <option value="Doctor">Doctor</option>
-                                    <option value="Admin">Admin</option>
-                                    <option value="Receptionist">Receptionist</option>
-                                </select>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Address</label>
-                                <input type="text" name="address" placeholder="Enter Your Address" required>
-                            </div>
-
-                            <div class="input-field">
-                                <label>Password</label>
-                                <input type="text" name="password" placeholder="Enter Your Password" 
-                                pattern = ".{8,}" required title = "Password Must Have 11 Characters">
-                            </div>
-
-                            <div class="input-field">
-                                <label>Confirm Password</label>
-                                <input type="text" name="confirm_password" placeholder="Confirm Your Password"
-                                pattern = ".{8,}" required title = "Password Must Have 11 Characters">
+                                <div class="input-field">
+                                    <label>Occupation</label>
+                                    <input type="text" name="occupation" placeholder="Enter Your Occupation" required>
+                                </div>
                             </div>
                         </div>
-                        <button type="submit" class="nextBtn">
-                            <span class="btnText">Next</span>
-                            <i class="uil uil-navigator"></i>
-                        </button>
-                    </div>
-                </div>
 
 
-        </form>
+                        <div class="form first">
+                            <div class="details id">
+                                <span class="title">Identity Details</span>
+                                <div class="fields">
+                                    <div class="input-field">
+                                        <label>ID Number</label>
+                                        <input type="number" name="id_number" placeholder="Enter ID number"
+                                            pattern="\d{13}" required title="CNIC number must be 13 digits">
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Issuance Authority</label>
+                                        <input type="text" name="issuance_authority"
+                                            placeholder="Enter Your Issuance Authority" required>
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Choose Your Role</label>
+                                        <select id="role" name="role">
+                                            <option value="Patient">Patient</option>
+                                            <option value="Doctor">Doctor</option>
+                                            <option value="Admin">Admin</option>
+                                            <option value="Receptionist">Receptionist</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Address</label>
+                                        <input type="text" name="address" placeholder="Enter Your Address" required>
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Password</label>
+                                        <input type="text" name="password" placeholder="Enter Your Password"
+                                            pattern=".{8,}" required title="Password Must Have 11 Characters">
+                                    </div>
+
+                                    <div class="input-field">
+                                        <label>Confirm Password</label>
+                                        <input type="text" name="confirm_password" placeholder="Confirm Your Password"
+                                            pattern=".{8,}" required title="Password Must Have 11 Characters">
+                                    </div>
+                                </div>
+                                <button type="submit" class="nextBtn">
+                                    <span class="btnText">Next</span>
+                                    <i class="uil uil-navigator"></i>
+                                </button>
+                                <div>
+                                    <p>Already Have An Account ? <a href="/login">Login</a> </p>
+                                </div>
+                            </div>
+                        </div>
+
+
+                </form>
     </div>
 </body>
 

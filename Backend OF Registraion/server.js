@@ -29,7 +29,7 @@ client.connect()
     .catch((err) => console.error("Error Connecting To Database", err.stack));
 
 app.get("/", (req, res) => {
-    res.render('form',{errorMessage: null});
+    res.render('login');
 })
 async function createTable() {
     const query = `CREATE TABLE IF NOT EXISTS users (
@@ -80,6 +80,38 @@ app.post("/register" , async (req,res) => {
         console.error("Error Inserting Data",err);
         res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");
     }
+})
+app.post("/login", async (req,res) => {
+    const {
+        email,password
+    } = req.body
+    try
+    {
+        const query = "SELECT * FROM users WHERE email = $1";
+        const result = await client.query(query,[email]);
+
+        if (result.rows.length === 0)
+        {
+            return res.render('login',{errorMessage: "Invalid Email Or Password"});
+        }
+
+        const user = result.rows[0];
+        const passwordMatch = await bcrypt.compare(password,user.password);
+
+        if (passwordMatch) {
+            res.send(`<h2> Login Successful! You Are Most Welcome </h2> ${result.rows[0].full_name}`);
+        }
+        else 
+        {
+            return 
+        }
+    }
+})
+app.get("/register",(req,res) => {
+    res.render('form',{errorMessage: null});
+})
+app.get("/login",(req,res) => {
+    res.render('login');
 })
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
