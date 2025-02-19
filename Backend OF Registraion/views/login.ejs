@@ -8,16 +8,19 @@
 </head>
 <body>
     <div class="login-wrapper">
-        <% if (typeof errorMessage !== undefined && errorMessage) { %>
-            <p>
+        <% if (typeof errorMessage !== 'undefined' && errorMessage) { %>
+            <p style = "color: red; font-weight: bold;">
+                <%= errorMessage %>
+            </p>    
+            <% } %>
         <form action="/login" method="POST">
             <h2>Login</h2>
             <div class="input-field">
-                <input type="text" required>
+                <input type="text" required name = "email">
                 <label>Enter Your Email</label>
             </div>
             <div class="input-field">
-                <input type="password" required>
+                <input type="password" required name = "password">
                 <label>Enter Your Password</label>
             </div>
             <div class="password-options">

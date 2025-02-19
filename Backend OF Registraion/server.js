@@ -93,7 +93,7 @@ app.post("/login", async (req,res) => {
 
         if (result.rows.length === 0)
         {
-            return res.render('login',{errorMessage: "Invalid Email Or Password"});
+            return res.render('login',{errorMessage: "Invalid Email Or Password Please Try Again"});
         }
 
         const user = result.rows[0];
@@ -104,7 +104,7 @@ app.post("/login", async (req,res) => {
         }
         else 
         {
-            return res.render('login',{errorMessage: "Incorrect Password Please Try Again"})
+            return res.render('login',{errorMessage: "Incorrect Password! Please Try Again"})
         }
     } catch (err) 
     {
