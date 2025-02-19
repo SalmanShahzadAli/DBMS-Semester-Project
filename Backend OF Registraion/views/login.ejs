@@ -8,6 +8,8 @@
 </head>
 <body>
     <div class="login-wrapper">
+        <% if (typeof errorMessage !== undefined && errorMessage) { %>
+            <p>
         <form action="/login" method="POST">
             <h2>Login</h2>
             <div class="input-field">

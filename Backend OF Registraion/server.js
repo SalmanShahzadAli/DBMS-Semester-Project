@@ -2,7 +2,8 @@ const { Client } = require("pg");
 const express = require("express");
 var path = require("path");
 var bodyParser = require("body-parser");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const { error } = require("console");
 
 const saltRounds = 10;
 const port = 3000;
@@ -103,8 +104,12 @@ app.post("/login", async (req,res) => {
         }
         else 
         {
-            return 
+            return res.render('login',{errorMessage: "Incorrect Password Please Try Again"})
         }
+    } catch (err) 
+    {
+        console.error("Login error",error);
+        return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
     }
 })
 app.get("/register",(req,res) => {
