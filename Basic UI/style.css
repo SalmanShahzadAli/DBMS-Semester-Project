@@ -1,0 +1,42 @@
+body {
+    background-image: url(login-hero-bg.jpg);
+}
+
+#carouselExampleAutoplaying {
+    margin-top: 35px;
+    margin-left: -130px;
+    width: 50%;
+    /* Adjust as needed (e.g., 50% of the parent container) */
+    max-height: 300px;
+    /* Adjust as needed */
+    overflow: hidden;
+    /* Important to clip overflowing content */
+}
+
+.carousel-inner {
+    height: 300px;
+    /* Match the max-height of the carousel */
+}
+
+.carousel-item img {
+    max-height: 300px;
+    /* Match the max-height of the carousel */
+    object-fit: cover;
+    /* Maintain aspect ratio and cover the area */
+    object-position: center;
+    /* Center the image within the container */
+}
+.illustration_image
+{
+    margin-top: 20px;
+    float: right;
+    margin-right: 20px;
+    height: auto; 
+    width: 400px;
+    margin-bottom: 20px;
+}
+.container-wrapper {
+    display: flex;         
+    align-items: center;
+    justify-content: space-between;     
+}
