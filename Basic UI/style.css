@@ -40,3 +40,7 @@ body {
     align-items: center;
     justify-content: space-between;     
 }
+header h2 {
+    margin-left: -90px; /* Adjust the value as needed */
+}
+
