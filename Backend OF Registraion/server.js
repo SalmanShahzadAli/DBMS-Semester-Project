@@ -30,7 +30,7 @@ client.connect()
     .catch((err) => console.error("Error Connecting To Database", err.stack));
 
 app.get("/", (req, res) => {
-    res.render('login');
+    res.render('landing_page');
 })
 async function createTable() {
     const query = `CREATE TABLE IF NOT EXISTS users (
@@ -117,6 +117,12 @@ app.get("/register",(req,res) => {
 })
 app.get("/login",(req,res) => {
     res.render('login');
+})
+app.get("/go-to-register",(req,res) => {
+    res.render('form',{errorMessage: null})
+})
+app.get("/go-to-login",(req,res) => {
+    res.render('login')
 })
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
