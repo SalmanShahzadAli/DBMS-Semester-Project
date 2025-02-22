@@ -112,6 +112,17 @@ app.post("/login", async (req,res) => {
         return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
     }
 })
+app.get("/go-to-doctors",async (req,res) => {
+    try
+    {
+        const query = `SELECT * FROM doctors`;
+        const result = await client.query(query);
+        res.render('doctors_ui',{doctor: result.rows});
+    } catch (err) {
+        console.error("Error fetching data:",err);
+        res.status(500).send("Server Error");
+    }
+});
 app.get("/register",(req,res) => {
     res.render('form',{errorMessage: null});
 })

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctors ui</title>
+    <link rel="stylesheet" href="style3.css">
+</head>
+<body>
+    <h2>Meet Our Doctors</h2>
+    <% doctor.forEach(doctor => { %>
+    <div class="cards">
+        <div class="image"><img src="<%= doctor.image_url %>" alt="Doctor Image"></div>
+        <div class="title"><h2><%= doctor.name %></h2></div>
+        <div class="specilization">Specialization  <%= doctor.specialization %></div>
+        <div class="experience">Years of Experience  <%= doctor.experience %></div>
+        <h4>Contact Info</h4>
+        mobile number  <%= doctor.mobile_number %>
+        email address  
+        <%= doctor.email %>
+        <div class="description">
+            Brief Description
+            <p><%= doctor.description %></p>
+            <button>read more</button>
+        </div>
+    </div>
+    <% }); %>
+</body>
+</html>

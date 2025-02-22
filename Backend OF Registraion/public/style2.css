@@ -43,4 +43,11 @@ body {
 header h2 {
     margin-left: -90px; /* Adjust the value as needed */
 }
-
+.viewdoctors h2 {
+    color: white;
+    /* background-color: black; */
+    width: 100%;
+}
+.viewdoctors {
+    padding: 20px;
+}
