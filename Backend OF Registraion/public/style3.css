@@ -4,12 +4,15 @@
 }
 body {
     font-family: Arial, Helvetica, sans-serif;
+    background-image: url(login-hero-bg.jpg);
 }
 .cards {
     width: 15%;
     border-radius: 5px;
     margin: 40px;
     box-shadow: 2px 2px 10px black;
+    border: 5px solid white;
+    color: whitesmoke;
 }
 .image img {
     width: 100%;
@@ -40,4 +43,18 @@ button:hover {
 }
 .title {
     padding: 15px;
+}
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.nav-container {
+    background-color: #2b2929;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    color: white;
+    margin-top: 10px;
 }

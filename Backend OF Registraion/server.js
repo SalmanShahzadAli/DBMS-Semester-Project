@@ -24,10 +24,24 @@ const client = new Client({
 })
 client.connect()
     .then(() => {
-        console.log("Connected To PostgreSQL")
+        console.log("Connected To PostgreSQL(postgres)")
         createTable(); // Call The Functin to create The Table
     })
-    .catch((err) => console.error("Error Connecting To Database", err.stack));
+    .catch((err) => console.error("Error Connecting To Database(postgres)", err.stack));
+
+const client2 = new Client({
+    user: "postgres",
+    host: "localhost",
+    database: "Pharmacy",
+    password: "Pakistan98765",
+    port: 5432
+});
+client2.connect()
+    .then(() => {
+        console.log("Connected To PostgreSQL(Pharmacy)")
+        createTable(); // Call The Functin to create The Table
+    })
+    .catch((err) => console.error("Error Connecting To Database(Pharmacy)", err.stack));
 
 app.get("/", (req, res) => {
     res.render('landing_page');
