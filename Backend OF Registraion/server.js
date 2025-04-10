@@ -25,14 +25,55 @@ const client = new Client({
 client.connect()
     .then(() => {
         console.log("Connected To PostgreSQL(postgres)")
-        createTableusers(); // Call The Functin to create The Table
+        createTableusers(); // Call The Functin to create The users Table.
+        createTablemedicine(); // Call The Function to create the medicine Table.
+        insertdummymedicines(); // Call The function To Insert Hard Coded Data Into Medicines Table 
     })
     .catch((err) => console.error("Error Connecting To Database(postgres)", err.stack));
 
 app.get("/", (req, res) => {
     res.render('landing_page');
 })
-
+async function createTablemedicine() {
+    const query = `CREATE TABLE IF NOT EXISTS medicines (
+    medicineID SERIAL PRIMARY KEY,
+    name VARCHAR(55) NOT NULL UNIQUE,  -- Ensures no duplicate medicine names
+    price INT CHECK (price > 0),  -- Ensures price is positive
+    stock_quantity INT CHECK (stock_quantity >= 0),  -- Prevents negative stock
+    expiry_date DATE CHECK (expiry_date > CURRENT_DATE)  -- Prevents expired medicines from being added
+    )`
+    try {
+        await client.query(query);
+        console.log("Medicines Table created IF Not Exists");
+    } catch (err) {
+        console.error("Error creating Table", err);
+    }
+}
+async function insertdummymedicines() {
+    try {
+        const result = await client.query("SELECT COUNT(*) FROM medicines")
+        const count = parseInt(result.rows[0].count);
+        if (count == 0) {
+            const insertQuery = `INSERT INTO medicines (name, price, stock_quantity, expiry_date) VALUES
+        ('Paracetamol', 1.99, 150, '2026-03-15'),
+        ('Amoxicillin', 5.50, 75, '2025-12-01'),
+        ('Ibuprofen', 3.25, 200, '2026-05-10'),
+        ('Cetirizine', 2.00, 180, '2025-11-30'),
+        ('Metformin', 4.75, 120, '2027-01-20'),
+        ('Azithromycin', 6.30, 60, '2025-09-05'),
+        ('Omeprazole', 3.90, 100, '2026-02-28'),
+        ('Salbutamol', 4.20, 85, '2025-10-12'),
+        ('Lisinopril', 2.75, 110, '2027-06-30'),
+        ('Simvastatin', 3.10, 90, '2026-08-22');`
+            await client.query(insertQuery);
+            console.log("Successfully Inserted Data Into Medicines Table");
+        } else {
+            console.log("Medicines Table Already Has Data");
+        }
+    } catch (err) {
+        console.error("Error Inserting Data Into Medicines Table", err);
+    }
+}
 async function createTableusers() {
     const query = `CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
@@ -56,84 +97,80 @@ async function createTableusers() {
     }
 }
 
-app.post("/register" , async (req,res) => {
+app.post("/register", async (req, res) => {
     const {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
-        id_number, issuance_authority, role, address, password ,confirm_password
+        id_number, issuance_authority, role, address, password, confirm_password
     } = req.body;
 
-    if (password != confirm_password)
-    {
-        return res.render("form",{ errorMessage : "❌Registration Failed As Passwords Do Not Match Please Try Again."});
+    if (password != confirm_password) {
+        return res.render("form", { errorMessage: "❌Registration Failed As Passwords Do Not Match Please Try Again." });
     }
 
-    try
-    {
-    const hashedPassword = await bcrypt.hash(password,saltRounds);
-    const query = `INSERT INTO users
+    try {
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
+        const query = `INSERT INTO users
     (full_name, email, date_of_birth, mobile_number, gender, occupation,
     id_number, issuance_authority, role, address, password)
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
-    const result = await client.query(query , [full_name, email, date_of_birth, mobile_number, gender, occupation,
-        id_number, issuance_authority, role, address, hashedPassword]);
+        const result = await client.query(query, [full_name, email, date_of_birth, mobile_number, gender, occupation,
+            id_number, issuance_authority, role, address, hashedPassword]);
 
-    res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)    
+        res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)
     } catch (err) {
-        console.error("Error Inserting Data",err);
+        console.error("Error Inserting Data", err);
         res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");
     }
 })
-app.post("/login", async (req,res) => {
+app.post("/login", async (req, res) => {
     const {
-        email,password
+        email, password
     } = req.body
-    try
-    {
+    try {
         const query = "SELECT * FROM users WHERE email = $1";
-        const result = await client.query(query,[email]);
+        const result = await client.query(query, [email]);
 
-        if (result.rows.length === 0)
-        {
-            return res.render('login',{errorMessage: "Invalid Email Or Password Please Try Again"});
+        if (result.rows.length === 0) {
+            return res.render('login', { errorMessage: "Invalid Email Or Password Please Try Again" });
         }
 
         const user = result.rows[0];
-        const passwordMatch = await bcrypt.compare(password,user.password);
+        const passwordMatch = await bcrypt.compare(password, user.password);
 
         if (passwordMatch) {
             res.send(`<h2> Login Successful! You Are Most Welcome </h2> ${result.rows[0].full_name}`);
         }
-        else 
-        {
-            return res.render('login',{errorMessage: "Incorrect Password! Please Try Again"})
+        else {
+            return res.render('login', { errorMessage: "Incorrect Password! Please Try Again" })
         }
-    } catch (err) 
-    {
-        console.error("Login error",error);
+    } catch (err) {
+        console.error("Login error", error);
         return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
     }
 })
-app.get("/go-to-doctors",async (req,res) => {
-    try
-    {
+app.get("/go-to-doctors", async (req, res) => {
+    try {
         const query = `SELECT * FROM doctors`;
         const result = await client.query(query);
-        res.render('doctors_ui',{doctor: result.rows});
+        res.render('doctors_ui', { doctor: result.rows });
     } catch (err) {
-        console.error("Error fetching data:",err);
+        console.error("Error fetching data:", err);
         res.status(500).send("Server Error");
     }
 });
-app.get("/register",(req,res) => {
-    res.render('form',{errorMessage: null});
+app.get("/go-to-medicines",async (req,res) => {
+    res.render('medicines_ui')
 })
-app.get("/login",(req,res) => {
+app.get("/register", (req, res) => {
+    res.render('form', { errorMessage: null });
+})
+app.get("/login", (req, res) => {
     res.render('login');
 })
-app.get("/go-to-register",(req,res) => {
-    res.render('form',{errorMessage: null})
+app.get("/go-to-register", (req, res) => {
+    res.render('form', { errorMessage: null })
 })
-app.get("/go-to-login",(req,res) => {
+app.get("/go-to-login", (req, res) => {
     res.render('login')
 })
 app.listen(port, () => {
