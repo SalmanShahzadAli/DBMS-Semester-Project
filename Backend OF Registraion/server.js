@@ -25,28 +25,15 @@ const client = new Client({
 client.connect()
     .then(() => {
         console.log("Connected To PostgreSQL(postgres)")
-        createTable(); // Call The Functin to create The Table
+        createTableusers(); // Call The Functin to create The Table
     })
     .catch((err) => console.error("Error Connecting To Database(postgres)", err.stack));
-
-const client2 = new Client({
-    user: "postgres",
-    host: "localhost",
-    database: "Pharmacy",
-    password: "Pakistan98765",
-    port: 5432
-});
-client2.connect()
-    .then(() => {
-        console.log("Connected To PostgreSQL(Pharmacy)")
-        createTable(); // Call The Functin to create The Table
-    })
-    .catch((err) => console.error("Error Connecting To Database(Pharmacy)", err.stack));
 
 app.get("/", (req, res) => {
     res.render('landing_page');
 })
-async function createTable() {
+
+async function createTableusers() {
     const query = `CREATE TABLE IF NOT EXISTS users (
     id SERIAL PRIMARY KEY,
     full_name VARCHAR(55) NOT NULL,
