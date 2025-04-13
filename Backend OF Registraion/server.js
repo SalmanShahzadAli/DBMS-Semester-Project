@@ -96,7 +96,7 @@ async function createTableusers() {
         console.error("Error Creating Table", err);
     }
 }
-
+app.post('/deletemedicine', async ())
 app.post("/register", async (req, res) => {
     const {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
