@@ -96,7 +96,26 @@ async function createTableusers() {
         console.error("Error Creating Table", err);
     }
 }
-app.post('/deletemedicine', async ())
+app.post('/deleteM', async (req,res) => {
+    const {
+        medicineid,name
+    } = req.body;
+    try {
+        const query1 = 'SELECT * FROM medicines WHERE medicineid = $1 AND name = $2';
+        const result1 = await client.query(query1,[medicineid,name]);
+        if (result1.rows.length === 0) {
+        return res.render('deletemedicine',{errorMessage : 'Invalid medicineid or name Please try again'});
+        }
+        const query2 = 'DELETE FROM medicines WHERE medicineid = $1 AND name = $2';
+        const result2 = await client.query(query2,[medicineid,name]);
+        if (result2) {
+        res.send("Successfully deleted row");
+        }
+    } catch (error) {
+        console.error('Error Deleting Medicine',error);
+        res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the medicine. Please try again later.' });
+    }
+});
 app.post("/register", async (req, res) => {
     const {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
@@ -158,6 +177,9 @@ app.get("/go-to-doctors", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+app.get("/go-to-deletemedicine",async (req,res) => {
+    res.render('deletemedicine')
+})
 app.get("/go-to-medicines",async (req,res) => {
     res.render('medicines_ui')
 })
