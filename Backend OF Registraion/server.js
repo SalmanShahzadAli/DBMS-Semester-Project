@@ -37,6 +37,7 @@ app.get("/", (req, res) => {
 async function createTablemedicine() {
     const query = `CREATE TABLE IF NOT EXISTS medicines (
     medicineID SERIAL PRIMARY KEY,
+    image VARCHAR(155),
     name VARCHAR(55) NOT NULL UNIQUE,  -- Ensures no duplicate medicine names
     price INT CHECK (price > 0),  -- Ensures price is positive
     stock_quantity INT CHECK (stock_quantity >= 0),  -- Prevents negative stock
@@ -54,17 +55,17 @@ async function insertdummymedicines() {
         const result = await client.query("SELECT COUNT(*) FROM medicines")
         const count = parseInt(result.rows[0].count);
         if (count == 0) {
-            const insertQuery = `INSERT INTO medicines (name, price, stock_quantity, expiry_date) VALUES
-        ('Paracetamol', 1.99, 150, '2026-03-15'),
-        ('Amoxicillin', 5.50, 75, '2025-12-01'),
-        ('Ibuprofen', 3.25, 200, '2026-05-10'),
-        ('Cetirizine', 2.00, 180, '2025-11-30'),
-        ('Metformin', 4.75, 120, '2027-01-20'),
-        ('Azithromycin', 6.30, 60, '2025-09-05'),
-        ('Omeprazole', 3.90, 100, '2026-02-28'),
-        ('Salbutamol', 4.20, 85, '2025-10-12'),
-        ('Lisinopril', 2.75, 110, '2027-06-30'),
-        ('Simvastatin', 3.10, 90, '2026-08-22');`
+            const insertQuery = `INSERT INTO medicines (name,image, price, stock_quantity, expiry_date) VALUES
+        ('Paracetamol','/uploads/paracetamol.png', 1.99, 150, '2026-03-15'),
+        ('Amoxicillin','/uploads/Amoxicillin.png',5.50, 75, '2025-12-01'),
+        ('Ibuprofen','/uploads/Ibuprofen.png',3.25, 200, '2026-05-10'),
+        ('Cetirizine','/uploads/Cetirizine.png',2.00, 180, '2025-11-30'),
+        ('Metformin','/uploads/Metformin.png',4.75, 120, '2027-01-20'),
+        ('Azithromycin','/uploads/Azithromycin.png',6.30, 60, '2025-09-05'),
+        ('Omeprazole','/uploads/Omeprazole.png',3.90, 100, '2026-02-28'),
+        ('Salbutamol','/uploads/Salbutamol.png', 4.20, 85, '2025-10-12'),
+        ('Lisinopril','/uploads/Lisinopril.png',2.75, 110, '2027-06-30'),
+        ('Simvastatin','/uploads/softin.png',3.10, 90, '2026-08-22');`
             await client.query(insertQuery);
             console.log("Successfully Inserted Data Into Medicines Table");
         } else {
@@ -116,6 +117,20 @@ app.post('/deleteM', async (req,res) => {
         res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the medicine. Please try again later.' });
     }
 });
+app.post("/AddM",async(req,res) => {
+    try {
+        const {
+            name,price,stock_quantity,expiry_date
+        } = req.body
+        const query = `INSERT INTO medicines(image,name,price,stock_quantity,expiry_date)
+        VALUES('/uploads/paracetamol',$1,$2,$3,$4)`;
+        const result = await client.query(query,[name,price,stock_quantity,expiry_date]);
+        res.redirect('/go-to-medicines')
+    } catch (error) {
+        console.error("Error Adding Medicine",error);
+        res.status(500).send("Something went wrong while adding the medicine.");
+    }
+});
 app.post("/register", async (req, res) => {
     const {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
@@ -135,7 +150,7 @@ app.post("/register", async (req, res) => {
         const result = await client.query(query, [full_name, email, date_of_birth, mobile_number, gender, occupation,
             id_number, issuance_authority, role, address, hashedPassword]);
 
-        res.send(`<h2> Registration Successful! Welcome, ${result.rows[0].full_name}`)
+        res.redirect('/login');
     } catch (err) {
         console.error("Error Inserting Data", err);
         res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");
@@ -180,9 +195,19 @@ app.get("/go-to-doctors", async (req, res) => {
 app.get("/go-to-deletemedicine",async (req,res) => {
     res.render('deletemedicine')
 })
-app.get("/go-to-medicines",async (req,res) => {
-    res.render('medicines_ui')
+app.get("/go-to-addmedicine",async (req,res) => {
+    res.render('addmedicine')
 })
+app.get("/go-to-medicines",async (req,res) => {
+    try {
+        const query = 'SELECT * FROM medicines';
+        const result = await client.query(query);
+        res.render('medicines_ui',{medicine: result.rows});
+    } catch (error) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+});
 app.get("/register", (req, res) => {
     res.render('form', { errorMessage: null });
 })

@@ -8,12 +8,17 @@
     <title>Pharmacy</title>
 </head>
 <body>
+    <div class="nav-container">
+        <h2 class="logo">Giki Medical Center</h2>
+        <h2 class="page-info">Browse Our Medicines</h2>
+    </div>
     <div class="gallery">
+        <% medicine.forEach(medicine => { %>
         <div class="content">
-            <img src="Simtavin.png">
-            <h3>Shoes</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$100.00</h6>
+            <img src="<%= medicine.image %>">
+            <h3>Name - <%= medicine.name %></h3>
+            <h6>Price - <%=medicine.price %>$</h6>
+            <h6>Expiry Date - <%=medicine.expiry_date %></h6>
             <ul>
                 <li><i class="fa fa-star checked"></i></li>
                 <li><i class="fa fa-star checked"></i></li>
@@ -23,135 +28,7 @@
             </ul>
             <button class="buy-1">Buy Now</button>
         </div>
-
-        <div class="content">
-            <img src="sibultason.png">
-            <h3>Earphone</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$70.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-2">Buy Now</button>
-        </div>
-
-        <div class="content">
-            <img src="paracetamol.png">
-            <h3>Mobile</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$1000.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-            </ul>
-            <button class="buy-3">Buy Now</button>
-        </div>
-
-        <div class="content">
-            <img src="omeprazole.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="metforim.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="Lisinproin.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="ibuprofen.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="azitherin.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="amoxiricin.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
-        <div class="content">
-            <img src="softin.png">
-            <h3>Watch</h3>
-            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsum, non!</p>
-            <h6>$200.00</h6>
-            <ul>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star checked"></i></li>
-                <li><i class="fa fa-star"></i></li>
-            </ul>
-            <button class="buy-4">Buy Now</button>
-        </div>
+        <% }); %>
     </div>
 </body>
 </html>
