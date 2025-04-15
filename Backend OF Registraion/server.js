@@ -167,6 +167,25 @@ app.post('/deleteM', async (req,res) => {
         res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the medicine. Please try again later.' });
     }
 });
+app.post("/deleteD",async (req,res) => {
+    try {
+        const {
+            doctor_id,name
+        } = req.body;
+        const query1 = "SELECT * FROM doctors WHERE doctor_id = $1 AND name = $2";
+        const result1 = await client.query(query1, [doctor_id, name]);
+        if (result1.rows.length === 0) {
+            return res.render('deletedoctor',{errorMessage: "Invalid Doctor ID or Doctor Name"});
+        }
+        const query2 = "DELETE FROM doctors WHERE doctor_id = $1 AND name = $2";
+        await client.query(query2, [doctor_id, name]);
+        res.send("Successfully deleted row");
+        
+    } catch (error) {
+        console.error('Error Deleting Medicine',error);
+        res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the doctor. Please try again later.' });
+    }
+});
 app.post("/AddM",async(req,res) => {
     try {
         const {
@@ -258,6 +277,16 @@ app.get("/go-to-medicines",async (req,res) => {
         res.status(500).send("Server Error");
     }
 });
+app.get("/go-to-adminview-doctors",async (req,res) => {
+    try {
+        const query = `SELECT * FROM doctors`;
+        const result = await client.query(query);
+        res.render('adminviewdoctors', { doctor: result.rows });
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+})
 app.get("/register", (req, res) => {
     res.render('form', { errorMessage: null });
 })
@@ -273,6 +302,10 @@ app.get("/go-to-login", (req, res) => {
 app.get("/landing",(req,res) => {
     res.render('landing_page')
 })
+app.get("/go-to-deletedoctor",(req,res) => {
+    res.render('deletedoctor')
+})
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
+    console.log(`Server is running at: http://localhost:${port}`);
 })

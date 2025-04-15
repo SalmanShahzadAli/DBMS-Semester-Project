@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor List</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="table-container">
+        <h2>Doctors View Admin Panel</h2>
+        <table class="doctor-table">
+            <thead>
+                <tr>
+                    <th>Doctor ID</th>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Experience</th>
+                    <th>Mobile Number</th>
+                    <th>Email</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% doctor.forEach(doctor => { %>
+                <tr>
+                    <td><%=doctor.doctor_id %></td>
+                    <td><%=doctor.name %></td>
+                    <td><%= doctor.specialization></td>
+                    <td><%= doctor.experience%></td>
+                    <td><%= doctor.mobile_number></td>
+                    <td><%= doctor.email></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>
