@@ -17,6 +17,10 @@
     width: 100%;             /* Full width */
     z-index: 1000; 
 }
+.logo-link {
+  text-decoration: none;
+  color: inherit;
+}
 body{
     min-height: 100vh;
     display: flex;

@@ -12,6 +12,7 @@ body{
     align-items: center;
     min-height: 100vh;
     background: #dfdfdf;
+    background-image: url(pexels-muffin-2468773.jpg);
 }
 .login-box{
     display: flex;
@@ -25,8 +26,24 @@ body{
     text-align: center;
     margin: 20px 0 40px 0;
 }
+.nav-container {
+    background-color: #2b2929;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    color: white;
+    position: fixed;         /* Make it fixed */
+    top: 0;                  /* Stick to top */
+    left: 0;
+    width: 100%;             /* Full width */
+    z-index: 1000; 
+}
+.logo-link {
+    text-decoration: none;
+    color: inherit;
+}
 .login-header header{
-    color: #333;
+    color: #f1e8e8;
     font-size: 30px;
     font-weight: 600;
 }

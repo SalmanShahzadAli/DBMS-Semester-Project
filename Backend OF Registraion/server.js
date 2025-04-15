@@ -28,6 +28,8 @@ client.connect()
         createTableusers(); // Call The Functin to create The users Table.
         createTablemedicine(); // Call The Function to create the medicine Table.
         insertdummymedicines(); // Call The function To Insert Hard Coded Data Into Medicines Table 
+        createtableappointment(); // Call The function to create appointments Table.
+        createTableAdmin(); // Call The function to create admins table.
     })
     .catch((err) => console.error("Error Connecting To Database(postgres)", err.stack));
 
@@ -50,6 +52,32 @@ async function createTablemedicine() {
         console.error("Error creating Table", err);
     }
 }
+async function createtableappointment() {
+    try {
+        const query = `CREATE TABLE IF NOT EXISTS appointment (
+            appointment_id SERIAL PRIMARY KEY,
+            doctor_name VARCHAR(100) NOT NULL,
+            specialization VARCHAR(100) NOT NULL,
+            years_experience INTEGER,
+            mobile_number VARCHAR(20) NOT NULL,
+            email VARCHAR(100) NOT NULL,
+            doctor_description TEXT,
+            patient_name VARCHAR(100),
+            patient_email VARCHAR(100),
+            appointment_date TIMESTAMP,
+            appointment_status VARCHAR(20) DEFAULT 'Pending',
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )`;
+        
+        // Assuming you're using a PostgreSQL client like pg
+        const result = await client.query(query);
+        console.log("Appointment table created successfully");
+        return result;
+    } catch (error) {
+        console.error("Error Creating Appointments Table:", error);
+        throw error;
+    }
+};
 async function insertdummymedicines() {
     try {
         const result = await client.query("SELECT COUNT(*) FROM medicines")
@@ -96,6 +124,28 @@ async function createTableusers() {
     } catch (err) {
         console.error("Error Creating Table", err);
     }
+}
+async function createTableAdmin() {
+    const query = `CREATE TABLE IF NOT EXISTS admins (
+        id SERIAL PRIMARY KEY,
+        full_name VARCHAR(55) NOT NULL,
+        email VARCHAR(55) UNIQUE NOT NULL,
+        date_of_birth DATE NOT NULL,
+        mobile_number VARCHAR(11) NOT NULL CHECK (LENGTH(mobile_number) = 11),
+        gender VARCHAR(10) NOT NULL,
+        occupation VARCHAR(100) NOT NULL,
+        id_number VARCHAR(13) UNIQUE NOT NULL CHECK (LENGTH(id_number) = 13),
+        issuance_Authority VARCHAR(255) NOT NULL,
+        role VARCHAR(55) CHECK (role IN ('Patient','Doctor','Admin','Receptionist')),
+        address TEXT NOT NULL,
+        password VARCHAR(255) NOT NULL
+        )`
+        try {
+            await client.query(query);
+            console.log("Admins Table Created IF NOT exists");
+        } catch (err) {
+            console.error("Error Creating Admins Table", err);
+        }
 }
 app.post('/deleteM', async (req,res) => {
     const {
@@ -219,6 +269,9 @@ app.get("/go-to-register", (req, res) => {
 })
 app.get("/go-to-login", (req, res) => {
     res.render('login')
+})
+app.get("/landing",(req,res) => {
+    res.render('landing_page')
 })
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
