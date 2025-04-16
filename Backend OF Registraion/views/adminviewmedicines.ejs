@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor List</title>
+    <link rel="stylesheet" href="style9.css">
+</head>
+
+<body>
+    <div class="nav-container">
+        <a href="/landing" class = "logo-link"><h2 class="logo">Giki Medical Center</h2></a>
+        <h2 class="page-info">Admin View Medicines</h2>
+    </div>
+    <div class="table-container">
+        <h2>Medicines View Admin Panel</h2>
+        <table class="doctor-table">
+            <thead>
+                <tr>
+                    <th>Medicine ID</th>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Stock_quantity</th>
+                    <th>Expiry_date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% medicine.forEach(medicine => { %>
+                <tr>
+                    <td><%=medicine.medicineid %></td>
+                    <td><%=medicine.name %></td>
+                    <td><%= medicine.price %></td>
+                    <td><%= medicine.stock_quantity %></td>
+                    <td><%= medicine.expiry_date %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

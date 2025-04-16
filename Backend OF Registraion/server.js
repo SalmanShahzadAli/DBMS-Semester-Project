@@ -68,7 +68,7 @@ async function createtableappointment() {
             appointment_status VARCHAR(20) DEFAULT 'Pending',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`;
-        
+
         // Assuming you're using a PostgreSQL client like pg
         const result = await client.query(query);
         console.log("Appointment table created successfully");
@@ -140,63 +140,62 @@ async function createTableAdmin() {
         address TEXT NOT NULL,
         password VARCHAR(255) NOT NULL
         )`
-        try {
-            await client.query(query);
-            console.log("Admins Table Created IF NOT exists");
-        } catch (err) {
-            console.error("Error Creating Admins Table", err);
-        }
+    try {
+        await client.query(query);
+        console.log("Admins Table Created IF NOT exists");
+    } catch (err) {
+        console.error("Error Creating Admins Table", err);
+    }
 }
-app.post('/deleteM', async (req,res) => {
+app.post('/deleteM', async (req, res) => {
     const {
-        medicineid,name
+        medicineid, name
     } = req.body;
     try {
         const query1 = 'SELECT * FROM medicines WHERE medicineid = $1 AND name = $2';
-        const result1 = await client.query(query1,[medicineid,name]);
+        const result1 = await client.query(query1, [medicineid, name]);
         if (result1.rows.length === 0) {
-        return res.render('deletemedicine',{errorMessage : 'Invalid medicineid or name Please try again'});
+            return res.render('deletemedicine', { errorMessage: 'Invalid medicineid or name Please try again' });
         }
         const query2 = 'DELETE FROM medicines WHERE medicineid = $1 AND name = $2';
-        const result2 = await client.query(query2,[medicineid,name]);
+        const result2 = await client.query(query2, [medicineid, name]);
         if (result2) {
-        res.send("Successfully deleted row");
+            res.send("Successfully deleted row");
         }
     } catch (error) {
-        console.error('Error Deleting Medicine',error);
+        console.error('Error Deleting Medicine', error);
         res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the medicine. Please try again later.' });
     }
 });
-app.post("/deleteD",async (req,res) => {
+app.post("/deleteD", async (req, res) => {
     try {
         const {
-            doctor_id,name
+            doctor_id, name
         } = req.body;
         const query1 = "SELECT * FROM doctors WHERE doctor_id = $1 AND name = $2";
         const result1 = await client.query(query1, [doctor_id, name]);
         if (result1.rows.length === 0) {
-            return res.render('deletedoctor',{errorMessage: "Invalid Doctor ID or Doctor Name"});
+            return res.render('deletedoctor', { errorMessage: "Invalid Doctor ID or Doctor Name" });
         }
         const query2 = "DELETE FROM doctors WHERE doctor_id = $1 AND name = $2";
         await client.query(query2, [doctor_id, name]);
-        res.send("Successfully deleted row");
-        
+        res.redirect('/go-to-adminview-doctors');
     } catch (error) {
-        console.error('Error Deleting Medicine',error);
+        console.error('Error Deleting Medicine', error);
         res.status(500).render('deletemedicine', { errorMessage: 'An error occurred while deleting the doctor. Please try again later.' });
     }
 });
-app.post("/AddM",async(req,res) => {
+app.post("/AddM", async (req, res) => {
     try {
         const {
-            name,price,stock_quantity,expiry_date
+            name, price, stock_quantity, expiry_date
         } = req.body
         const query = `INSERT INTO medicines(image,name,price,stock_quantity,expiry_date)
         VALUES('/uploads/paracetamol',$1,$2,$3,$4)`;
-        const result = await client.query(query,[name,price,stock_quantity,expiry_date]);
-        res.redirect('/go-to-medicines')
+        const result = await client.query(query, [name, price, stock_quantity, expiry_date]);
+        res.redirect('/go-to-adminview-medicines');
     } catch (error) {
-        console.error("Error Adding Medicine",error);
+        console.error("Error Adding Medicine", error);
         res.status(500).send("Something went wrong while adding the medicine.");
     }
 });
@@ -261,23 +260,23 @@ app.get("/go-to-doctors", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
-app.get("/go-to-deletemedicine",async (req,res) => {
+app.get("/go-to-deletemedicine", async (req, res) => {
     res.render('deletemedicine')
 })
-app.get("/go-to-addmedicine",async (req,res) => {
+app.get("/go-to-addmedicine", async (req, res) => {
     res.render('addmedicine')
 })
-app.get("/go-to-medicines",async (req,res) => {
+app.get("/go-to-medicines", async (req, res) => {
     try {
         const query = 'SELECT * FROM medicines';
         const result = await client.query(query);
-        res.render('medicines_ui',{medicine: result.rows});
+        res.render('medicines_ui', { medicine: result.rows });
     } catch (error) {
         console.error("Error fetching data:", err);
         res.status(500).send("Server Error");
     }
 });
-app.get("/go-to-adminview-doctors",async (req,res) => {
+app.get("/go-to-adminview-doctors", async (req, res) => {
     try {
         const query = `SELECT * FROM doctors`;
         const result = await client.query(query);
@@ -287,6 +286,16 @@ app.get("/go-to-adminview-doctors",async (req,res) => {
         res.status(500).send("Server Error");
     }
 })
+app.get("/go-to-adminview-medicines", async (req, res) => {
+    try {
+        const query = `SELECT * FROM medicines`;
+        const result = await client.query(query);
+        res.render('adminviewmedicines', { medicine: result.rows });
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+});
 app.get("/register", (req, res) => {
     res.render('form', { errorMessage: null });
 })
@@ -299,10 +308,10 @@ app.get("/go-to-register", (req, res) => {
 app.get("/go-to-login", (req, res) => {
     res.render('login')
 })
-app.get("/landing",(req,res) => {
+app.get("/landing", (req, res) => {
     res.render('landing_page')
 })
-app.get("/go-to-deletedoctor",(req,res) => {
+app.get("/go-to-deletedoctor", (req, res) => {
     res.render('deletedoctor')
 })
 app.listen(port, () => {
