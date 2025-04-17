@@ -1,7 +1,9 @@
 body {
     background-image: url(gikimc.jpg);
 }
-
+.nav-icon {
+    margin-right: 100px;
+}
 #carouselExampleAutoplaying {
     margin-top: 35px;
     margin-left: -130px;
