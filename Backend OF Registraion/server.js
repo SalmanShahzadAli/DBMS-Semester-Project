@@ -8,16 +8,21 @@ const session = require('express-session');
 const saltRounds = 10;
 const port = 3000;
 const app = express();
+
 app.use(express.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'views'));
+
 app.use(session({
     secret: 'yourSecretKey',    // change this to a strong secret in production
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: false }   // set true if using HTTPS
+    saveUninitialized: false,
+    cookie: {
+        secure: false,
+        maxAge: 24 * 60 * 60 * 1000 // 24 hours
+    }   // set true if using HTTPS
 }));
 const client = new Client({
     user: "postgres",
@@ -58,16 +63,11 @@ async function createtableappointment() {
     try {
         const query = `CREATE TABLE IF NOT EXISTS appointment (
             appointment_id SERIAL PRIMARY KEY,
-            doctor_name VARCHAR(100) NOT NULL,
-            specialization VARCHAR(100) NOT NULL,
-            years_experience INTEGER,
-            mobile_number VARCHAR(20) NOT NULL,
-            email VARCHAR(100) NOT NULL,
-            doctor_description TEXT,
             patient_name VARCHAR(100),
             patient_email VARCHAR(100),
+            doctor_name VARCHAR(100) NOT NULL,
+            doctor_email VARCHAR(100) NOT NULL,
             appointment_date TIMESTAMP,
-            appointment_status VARCHAR(20) DEFAULT 'Pending',
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )`;
         // Assuming you're using a PostgreSQL client like pg
@@ -292,18 +292,27 @@ app.post("/login", async (req, res) => {
         const result = await client.query(query, [email]);
 
         if (result.rows.length === 0) {
-            return res.render('login', { errorMessage: "Invalid Email Or Password Please Try Again" });
+            return res.render('login', { errorMessage: "Invalid Email Or Password" });
         }
 
         const user = result.rows[0];
         const passwordMatch = await bcrypt.compare(password, user.password);
 
-        if (passwordMatch) {
+        if (!passwordMatch) {
+            return res.render('login', { errorMessage: "Invalid Email Or Password" });
+        }
+        req.session.regenerate((err) => {
+            if (err) {
+                console.error("Session Error",err);
+                return res.status(500).render('error',{ message: "Login failed.Please try again later"});
+            }
+            req.session.user = {
+                id: user.id,
+                name: user.full_name,
+                email: user.email
+            };
             res.redirect('/landing');
-        }
-        else {
-            return res.render('login', { errorMessage: "Incorrect Password! Please Try Again" });
-        }
+        })
     } catch (err) {
         console.error("Login error", err);
         return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
@@ -372,7 +381,8 @@ app.get("/go-to-login", (req, res) => {
     res.render('login')
 })
 app.get("/landing", (req, res) => {
-    res.render('landing_page');
+    console.log("Session User: ",req.session.user); // Check if session data is available
+    res.render('landing_page', { user: req.session.user });
 })
 app.get("/go-to-deletedoctor", (req, res) => {
     res.render('deletedoctor')
