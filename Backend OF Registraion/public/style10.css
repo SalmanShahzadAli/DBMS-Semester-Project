@@ -1,0 +1,72 @@
+/* Make body full height and use flex to center everything */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 0;
+    /* height: 100vh; */
+    /* Full height of the viewport */
+    /* display: flex;
+    justify-content: center; */
+    /* Horizontal center */
+    /* align-items: center; */
+    /* Vertical center */
+}
+
+.table-container {
+    margin-top: 100px; /* Enough space for navbar */
+    margin: 100px auto 0 auto;
+    width: 90%;
+    max-width: 1000px;
+    background: white;
+    padding: 20px 30px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.doctor-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.doctor-table th,
+.doctor-table td {
+    padding: 12px 15px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.doctor-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.doctor-table tr:nth-child(even) {
+    background-color: #fafafa;
+}
+
+.doctor-table tr:hover {
+    background-color: #f1f1f1;
+}
+.logo-link {
+    text-decoration: none;
+    color: white; /* or whatever color you want */
+}
+.nav-container {
+    background-color: #2b2929;
+    display: flex;
+    justify-content: space-between;
+    text-decoration: none;
+    padding: 12px;
+    color: white;
+    position: fixed;         /* Make it fixed */
+    top: 0;                  /* Stick to top */
+    left: 0;
+    width: 100%;             /* Full width */
+    z-index: 1000; 
+}

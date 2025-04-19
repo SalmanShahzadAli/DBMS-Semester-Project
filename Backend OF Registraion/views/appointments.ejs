@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Appointments List</title>
+    <link rel="stylesheet" href="style10.css">
+</head>
+
+<body>
+    <div class="nav-container">
+        <a href="/landing" class = "logo-link"><h2 class="logo">Giki Medical Center</h2></a>
+        <h2 class="page-info">Admin View Appointments</h2>
+    </div>
+    <div class="table-container">
+        <h2>Admin View Admin Panel</h2>
+        <table class="doctor-table">
+            <thead>
+                <tr>
+                    <th>Appointment ID</th>
+                    <th>doctor_name</th>
+                    <th>specialization</th>
+                    <th>years_experience</th>
+                    <th>mobile_number</th>
+                    <th>email</th>
+                    <th>doctor_description</th>
+                    <th>patient_name</th>
+                    <th>patient_email</th>
+                    <th>appointment_date</th>
+                    <th>appointment_status</th>
+                    <th>created_at</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% appointment.forEach(appointment => { %>
+                <tr>
+                    <td><%= appointment.appointment_id %></td>
+                    <td><%= appointment.doctor_name %></td>
+                    <td><%= appointment.specialization %></td>
+                    <td><%= appointment.years_experience %></td>
+                    <td><%= appointment.mobile_number %></td>
+                    <td><%= appointment.email %></td>
+                    <td><%= appointment.doctor_description %></td>
+                    <td><%= appointment.patient_name %></td>
+                    <td><%= appointment.patient_email %></td>
+                    <td><%= appointment.appointment_date %></td>
+                    <td><%= appointment.appointment_status %></td>
+                    <td><%= appointment.created_at %></td>
+                </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

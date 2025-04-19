@@ -4,7 +4,7 @@ var path = require("path");
 var bodyParser = require("body-parser");
 const bcrypt = require("bcryptjs");
 const { error } = require("console");
-
+const session = require('express-session');
 const saltRounds = 10;
 const port = 3000;
 const app = express();
@@ -13,7 +13,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set('views', path.join(__dirname, 'views'));
-
+app.use(session({
+    secret: 'yourSecretKey',    // change this to a strong secret in production
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: false }   // set true if using HTTPS
+}));
 const client = new Client({
     user: "postgres",
     host: "localhost",
@@ -130,7 +135,7 @@ async function insertdummydoctors() {
             await client.query(query);
             console.log("Successfully Inserted Data Into Doctors Table");
         } else {
-            console.log("Doctors Table Already Has Data");   
+            console.log("Doctors Table Already Has Data");
         }
     } catch (err) {
         console.error("Error Inserting Data Into Doctors Table", err);
@@ -339,6 +344,16 @@ app.get("/go-to-adminview-medicines", async (req, res) => {
         const query = `SELECT * FROM medicines`;
         const result = await client.query(query);
         res.render('adminviewmedicines', { medicine: result.rows });
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+});
+app.get("/go-to-adminview-appointments", async (req, res) => {
+    try {
+        const query = `SELECT * FROM appointment`;
+        const result = await client.query(query);
+        res.render('appointments', { appointment: result.rows });
     } catch (err) {
         console.error("Error fetching data:", err);
         res.status(500).send("Server Error");
