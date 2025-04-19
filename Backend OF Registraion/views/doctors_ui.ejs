@@ -12,8 +12,9 @@
     <h2 class="page-info">Meet Our Doctors</h2>
     </div>
     <div class="container">
-    <% doctor.forEach(doctor => { %>
-    <div class="cards">
+        <% doctor.forEach(doctor => { %>
+        <div class="cards">
+        <form action="/book-appointment" method ="POST">
         <div class="image"><img src="<%= doctor.image_url %>" alt="Doctor Image"></div>
         <div class="title"><h2>Name - <%= doctor.name %></h2></div>
         <div class="specilization"><h3>Specialization  <%= doctor.specialization %></h3></div>
@@ -25,7 +26,11 @@
             <h3>Brief Description</h3>
             <h3><p><%= doctor.description %></p></h3>
         </div>
+        <!-- Hidden inputs for backend -->
+        <input type="hidden" name="doctor_name" value="<%= doctor.name %>">
+        <input type="hidden" name="doctor_email" value="<%= doctor.email %>">
         <button>Book Appointment</button>
+    </form>
     </div>
     <% }); %>
 </div>

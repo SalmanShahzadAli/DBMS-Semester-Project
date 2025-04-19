@@ -63,16 +63,16 @@ async function createtableappointment() {
     try {
         const query = `CREATE TABLE IF NOT EXISTS appointment (
             appointment_id SERIAL PRIMARY KEY,
-            patient_name VARCHAR(100),
-            patient_email VARCHAR(100),
-            doctor_name VARCHAR(100) NOT NULL,
-            doctor_email VARCHAR(100) NOT NULL,
-            appointment_date TIMESTAMP,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            patient_name VARCHAR(555),
+            patient_email VARCHAR(555),
+            doctor_name VARCHAR(555) NOT NULL,
+            doctor_email VARCHAR(555) NOT NULL,
+            appointment_date date,
+            created_at date
         )`;
         // Assuming you're using a PostgreSQL client like pg
         const result = await client.query(query);
-        console.log("Appointment table created successfully");
+        console.log("Appointment table IF NOT EXISTS successfully");
         return result;
     } catch (error) {
         console.error("Error Creating Appointments Table:", error);
@@ -205,6 +205,9 @@ async function createTableAdmin() {
     } catch (err) {
         console.error("Error Creating Admins Table", err);
     }
+};
+function generateRandomDate(from, to) {
+    return new Date(from.getTime() + Math.random() * (to.getTime() - from.getTime()));
 }
 app.post('/deleteM', async (req, res) => {
     const {
@@ -303,8 +306,8 @@ app.post("/login", async (req, res) => {
         }
         req.session.regenerate((err) => {
             if (err) {
-                console.error("Session Error",err);
-                return res.status(500).render('error',{ message: "Login failed.Please try again later"});
+                console.error("Session Error", err);
+                return res.status(500).render('error', { message: "Login failed.Please try again later" });
             }
             req.session.user = {
                 id: user.id,
@@ -316,6 +319,37 @@ app.post("/login", async (req, res) => {
     } catch (err) {
         console.error("Login error", err);
         return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
+    }
+});
+app.post('/book-appointment',async (req, res) => {
+    if (!req.session.user) {
+        return res.render("login");
+    }
+    try {
+        const patient_name = req.session.user.name;
+        const patient_email = req.session.user.email;
+        const {
+            doctor_name, doctor_email
+        } = req.body;
+        // Validate doctor details
+        if (!doctor_name || !doctor_email || !/^\S+@\S+\.\S+$/.test(doctor_email)) {
+            return res.status(400).render("error", { message: "Invalid doctor details!" });
+        }
+        const now = new Date();
+        const in30Days = new Date();
+        in30Days.setDate(now.getDate() + 30);
+        const randomAppointmentDate = generateRandomDate(now, in30Days);
+        console.log(randomAppointmentDate); // Outputs a random date within the next 30 days
+        console.log(now);
+        const query = `INSERT INTO appointment(patient_name,patient_email,doctor_name,doctor_email,appointment_date,created_at)
+        VALUES
+        ($1,$2,$3,$4,$5,$6)
+        `;
+        await client.query(query,[patient_name,patient_email,doctor_name,doctor_email,randomAppointmentDate,now]);
+        res.redirect('/go-to-adminview-appointments');
+    } catch (err) {
+        console.error("Error Inserting Data", err);
+        res.status(500).send("<h2>❌ Appointment Failed! Try Again.</h2>");
     }
 });
 app.get("/go-to-doctors", async (req, res) => {
@@ -381,7 +415,7 @@ app.get("/go-to-login", (req, res) => {
     res.render('login')
 })
 app.get("/landing", (req, res) => {
-    console.log("Session User: ",req.session.user); // Check if session data is available
+    console.log("Session User: ", req.session.user); // Check if session data is available
     res.render('landing_page', { user: req.session.user });
 })
 app.get("/go-to-deletedoctor", (req, res) => {
