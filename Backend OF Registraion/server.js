@@ -266,11 +266,9 @@ app.post("/register", async (req, res) => {
         full_name, email, date_of_birth, mobile_number, gender, occupation,
         id_number, issuance_authority, role, address, password, confirm_password
     } = req.body;
-
     if (password != confirm_password) {
         return res.render("form", { errorMessage: "❌Registration Failed As Passwords Do Not Match Please Try Again." });
     }
-
     try {
         const hashedPassword = await bcrypt.hash(password, saltRounds);
         const query = `INSERT INTO users
@@ -279,13 +277,12 @@ app.post("/register", async (req, res) => {
     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11) RETURNING *;`;
         const result = await client.query(query, [full_name, email, date_of_birth, mobile_number, gender, occupation,
             id_number, issuance_authority, role, address, hashedPassword]);
-
         res.redirect('/login');
     } catch (err) {
         console.error("Error Inserting Data", err);
         res.status(500).send("<h2>❌ Registration Failed! Try Again.</h2>");
     }
-})
+});
 app.post("/login", async (req, res) => {
     const {
         email, password
@@ -321,7 +318,7 @@ app.post("/login", async (req, res) => {
         return res.status(500).send("<h2>❌ Login Failed! Please try again.</h2>");
     }
 });
-app.post('/book-appointment',async (req, res) => {
+app.post('/book-appointment', async (req, res) => {
     if (!req.session.user) {
         return res.render("login");
     }
@@ -345,11 +342,27 @@ app.post('/book-appointment',async (req, res) => {
         VALUES
         ($1,$2,$3,$4,$5,$6)
         `;
-        await client.query(query,[patient_name,patient_email,doctor_name,doctor_email,randomAppointmentDate,now]);
+        await client.query(query, [patient_name, patient_email, doctor_name, doctor_email, randomAppointmentDate, now]);
         res.redirect('/go-to-adminview-appointments');
     } catch (err) {
         console.error("Error Inserting Data", err);
         res.status(500).send("<h2>❌ Appointment Failed! Try Again.</h2>");
+    }
+});
+app.post("/addD", async (req, res) => {
+    try {
+        const {
+            doctor_name, doctor_specialization, doctor_experience, doctor_mobile_number, doctor_email, doctor_consultation_fees, doctor_availability, doctor_clinic, doctor_description
+        } = req.body;
+        const query = `INSERT INTO doctors (name, specialization, experience, mobile_number, email, consultation_fees, availability, clinic, image_url, description)
+        VALUES
+        ($1,$2,$3,$4,$5,$6,$7,$8,'/uploads/male6.jpg',$9)
+        `
+        const result = await client.query(query, [doctor_name, doctor_specialization, doctor_experience, doctor_mobile_number, doctor_email, doctor_consultation_fees, doctor_availability, doctor_clinic, doctor_description]);
+        res.redirect('/go-to-adminview-doctors');
+    } catch (err) {
+        console.error("Error Inserting Doctor", err);
+        res.status(500).send("<h2>❌ Doctor Insertion Failed! Try Again.</h2>");
     }
 });
 app.get("/go-to-doctors", async (req, res) => {
@@ -402,6 +415,9 @@ app.get("/go-to-adminview-appointments", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+app.get("/go-to-adddoctor", (req, res) => {
+    res.render('adddoctor');
+})
 app.get("/register", (req, res) => {
     res.render('form', { errorMessage: null });
 })

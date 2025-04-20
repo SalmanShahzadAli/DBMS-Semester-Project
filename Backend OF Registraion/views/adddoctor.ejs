@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hospital Management System</title>
+    <link rel="stylesheet" href="style11.css">
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+</head>
+
+<body>
+    <div class="nav-container">
+        <a href="/landing" class = "logo-link"><h2 class="logo">Giki Medical Center</h2></a>
+        <h2 class="page-info">Add A Doctor</h2>
+    </div>
+    <div class="container">
+        <header>Add A Doctor</header>
+        <% if (typeof errorMessage !=='undefined' && errorMessage) { %>
+            <p style="color: red; font-weight: bold;">
+                <%= errorMessage %>
+            </p>
+            <% } %>
+                <form action="/addD" method="POST">
+                    <div class="form first">
+                        <div class="details perosnal">
+                            <span class="title">Perosnal Details</span>
+                            <div class="fields">
+                                <div class="input-field">
+                                    <label>Doctor Name</label>
+                                    <input type="text" name="doctor_name" placeholder="Enter Doctor Name" required>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Specialization</label>
+                                    <input type="text" name="doctor_specialization" placeholder="Enter Doctor Specialization" required>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Experience</label>
+                                    <input type="integer" name="doctor_experience" placeholder="Enter Doctor Experience" required>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Mobile Number</label>
+                                    <input type="number" name="doctor_mobile_number" placeholder="Enter Doctor Mobile Number"
+                                        pattern="\d{11}" required title="Mobile number must be exactly 11 digits">
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Email</label>
+                                    <input type="text" name="doctor_email" placeholder="Enter Doctor Email" required>
+                                </div>
+
+                                <div class="input-field">
+                                    <label>Consultation Fees</label>
+                                    <input type="numeric(10,2)" name="doctor_consultation_fees" placeholder="Enter Doctor Consultation Fees" required>
+                                </div>
+                                <div class="input-field">
+                                    <label>Availability</label>
+                                    <input type="text" name="doctor_availability" placeholder="Enter Doctor Availability" required>
+                                </div>
+                                <div class="input-field">
+                                    <label>Clinic</label>
+                                    <input type="text" name="doctor_clinic" placeholder="Enter Doctor Clinic" required>
+                                </div>
+                                <div class="input-field">
+                                    <label>Description</label>
+                                    <input type="text" name="doctor_description" placeholder="Enter Doctor Description" required>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="nextBtn">
+                            <span class="btnText">Add doctor</span>
+                            <i class="uil uil-navigator"></i>
+                        </button>
+                </form>
+    </div>
+</body>
+
+
+</html>
