@@ -415,6 +415,21 @@ app.get("/go-to-adminview-appointments", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+app.get("/delete-old-appointments", async (req, res) => {
+    try {
+        const query = `DELETE FROM appointment WHERE appointment_date < '2025-05-02'`;
+        result = await client.query(query);
+        if (result.rowCount > 0) {
+            console.log(`${result.rowCount} old appointment(s) deleted.`);
+        } else {
+            console.log("No old appointments to delete.");
+        }
+        res.redirect('/go-to-adminview-appointments');
+    } catch (err) {
+        console.error("Error Deleting Data",err);
+        res.status(500).send("Internal Server Error");
+    }
+});
 app.get("/go-to-adddoctor", (req, res) => {
     res.render('adddoctor');
 })
@@ -442,11 +457,11 @@ app.get("/go-to-deletemedicine", async (req, res) => {
 })
 app.get("/go-to-addmedicine", async (req, res) => {
     res.render('addmedicine')
-})
+});
 app.get("/", (req, res) => {
     res.render('login');
-})
+});
 app.listen(port, () => {
     console.log(`Server running on Port ${port}`)
     console.log(`Server is running at: http://localhost:${port}`);
-})
+});
