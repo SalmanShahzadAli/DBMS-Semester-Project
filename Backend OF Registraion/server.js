@@ -430,6 +430,9 @@ app.get("/delete-old-appointments", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+app.get("/update-info",(req,res) => {
+    res.render('select-table');
+})
 app.get("/go-to-adddoctor", (req, res) => {
     res.render('adddoctor');
 })

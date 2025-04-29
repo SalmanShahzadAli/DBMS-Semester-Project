@@ -67,7 +67,8 @@ header h2 {
     padding: 2rem;
 }
 
-.icon-card {
+.icon-card-d {
+    background-image: url(resized_doctor_card_image.png);
     background-color: #f1f1f1;
     border-radius: 1rem;
     padding: 2rem;
@@ -77,6 +78,29 @@ header h2 {
     transition: transform 0.2s ease;
     cursor: pointer;
 }
+.icon-card-m {
+    background-image: url(resized_lab_card_image.jpg);
+    background-color: #f1f1f1;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 180px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+.icon-card-a {
+    background-image: url(image.jpg);
+    background-color: #f1f1f1;
+    border-radius: 1rem;
+    padding: 2rem;
+    width: 220px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease;
+    cursor: pointer;
+}
+
 
 .icon-card:hover {
     transform: scale(1.05);
