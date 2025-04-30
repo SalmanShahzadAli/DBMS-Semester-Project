@@ -365,6 +365,41 @@ app.post("/addD", async (req, res) => {
         res.status(500).send("<h2>❌ Doctor Insertion Failed! Try Again.</h2>");
     }
 });
+app.post("/update-info", async (req, res) => {
+    const { id, attribute, value } = req.body;
+    try {
+        if (attribute === "full_name") {
+            await client.query("UPDATE users SET full_name = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "email") {
+            await client.query("UPDATE users SET email = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "date_of_birth") {
+            await client.query("UPDATE users SET date_of_birth = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "mobile_number") {
+            await client.query("UPDATE users SET mobile_number = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "gender") {
+            await client.query("UPDATE users SET gender = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "occupation") {
+            await client.query("UPDATE users SET occupation = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "id_number") {
+            await client.query("UPDATE users SET id_number = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "issuance_Authority") {
+            await client.query("UPDATE users SET issuance_Authority = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "role") {
+            await client.query("UPDATE users SET role = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "address") {
+            await client.query("UPDATE users SET address = $1 WHERE id = $2", [value, id]);
+        } else if (attribute === "password") {
+            // Optional: hash password here if needed
+            await pool.query("UPDATE users SET password = $1 WHERE id = $2", [value, id]);
+        } else {
+            return res.status(400).json({ message: "Invalid attribute selected" });
+        }
+        res.redirect('/update-users');
+    } catch (err) {
+        console.error("Error updating user info:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 app.get("/go-to-doctors", async (req, res) => {
     try {
         const query = `SELECT * FROM doctors`;
@@ -426,21 +461,21 @@ app.get("/delete-old-appointments", async (req, res) => {
         }
         res.redirect('/go-to-adminview-appointments');
     } catch (err) {
-        console.error("Error Deleting Data",err);
+        console.error("Error Deleting Data", err);
         res.status(500).send("Internal Server Error");
     }
 });
-app.get("/update-users",async (req,res) => {
+app.get("/update-users", async (req, res) => {
     try {
-        const query = "SELECT * FROM users";
+        const query = "SELECT * FROM users ORDER BY id ASC";
         const result = await client.query(query);
-        res.render('update_user',{user: result.rows});
+        res.render('update_user', { user: result.rows });
     } catch (err) {
         console.error("Error fetching data:", err);
         res.status(500).send("Server Error");
     }
-})
-app.get("/update-info",(req,res) => {
+});
+app.get("/update-info", (req, res) => {
     res.render('select-table');
 })
 app.get("/go-to-adddoctor", (req, res) => {

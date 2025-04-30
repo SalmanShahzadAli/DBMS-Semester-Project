@@ -26,21 +26,43 @@
             </tr>
         </thead>
         <tbody>
-            <% user.forEach(user => { %>
-            <tr>
-                <td><%=user.id %></td>
-                <td><%=user.full_name %></td>
-                <td><%= user.email %></td>
-                <td><%= user.date_of_birth %></td>
-                <td><%= user.mobile_number %></td>
-                <td><%= user.gender %></td>
-                <td><%= user.occupation %></td>
-                <td><%= user.id_number %></td>
-                <td><%= user.issuance_authority %></td>
-                <td><%= user.role %></td>
-                <td><%= user.address %></td>
-            </tr>
-            <% }); %>
+            <% user.forEach(user=> { %>
+                <tr>
+                    <td>
+                        <%=user.id %>
+                    </td>
+                    <td>
+                        <%=user.full_name %>
+                    </td>
+                    <td>
+                        <%= user.email %>
+                    </td>
+                    <td>
+                        <%= user.date_of_birth %>
+                    </td>
+                    <td>
+                        <%= user.mobile_number %>
+                    </td>
+                    <td>
+                        <%= user.gender %>
+                    </td>
+                    <td>
+                        <%= user.occupation %>
+                    </td>
+                    <td>
+                        <%= user.id_number %>
+                    </td>
+                    <td>
+                        <%= user.issuance_authority %>
+                    </td>
+                    <td>
+                        <%= user.role %>
+                    </td>
+                    <td>
+                        <%= user.address %>
+                    </td>
+                </tr>
+                <% }); %>
         </tbody>
     </table>
     <div class="form">
@@ -55,8 +77,8 @@
                         <%= success %>
                     </p>
                     <% } %>
-                        <input type="integer" placeholder="Enter User ID">
                         <form action="/update-info" method="POST">
+                            <input name="id" type="integer" placeholder="Enter User ID">
                             <select id="attribute" name="attribute" onchange="showInput()">
                                 <option value="">Select Attribute</option>
                                 <option value="full_name">Full Name</option>
