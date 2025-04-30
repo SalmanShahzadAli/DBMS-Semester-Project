@@ -430,6 +430,16 @@ app.get("/delete-old-appointments", async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
+app.get("/update-users",async (req,res) => {
+    try {
+        const query = "SELECT * FROM users";
+        const result = await client.query(query);
+        res.render('update_user',{user: result.rows});
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+})
 app.get("/update-info",(req,res) => {
     res.render('select-table');
 })

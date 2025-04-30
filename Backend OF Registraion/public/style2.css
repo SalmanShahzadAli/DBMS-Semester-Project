@@ -1,9 +1,11 @@
 body {
     background-image: url(gikimc.jpg);
 }
+
 .nav-icon {
     margin-right: 100px;
 }
+
 #carouselExampleAutoplaying {
     margin-top: 35px;
     margin-left: -130px;
@@ -78,6 +80,7 @@ header h2 {
     transition: transform 0.2s ease;
     cursor: pointer;
 }
+
 .icon-card-m {
     background-image: url(resized_lab_card_image.jpg);
     background-color: #f1f1f1;
@@ -89,6 +92,54 @@ header h2 {
     transition: transform 0.2s ease;
     cursor: pointer;
 }
+.icon-card-d {
+    transition: all 0.3s ease;
+    /* Smooth transition for all properties */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+/* Hover effect */
+.icon-card-d:hover {
+    background-color: #f0f0f0;
+    /* Change background color */
+    transform: scale(1.05);
+    /* Slightly scale up */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow */
+}
+.icon-card-a {
+    transition: all 0.3s ease;
+    /* Smooth transition for all properties */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+
+/* Hover effect */
+.icon-card-a:hover {
+    background-color: #f0f0f0;
+    /* Change background color */
+    transform: scale(1.05);
+    /* Slightly scale up */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow */
+}
+.icon-card-m {
+    transition: all 0.3s ease;
+    /* Smooth transition for all properties */
+    cursor: pointer;
+    /* Pointer cursor on hover */
+}
+
+/* Hover effect */
+.icon-card-m:hover {
+    background-color: #f0f0f0;
+    /* Change background color */
+    transform: scale(1.05);
+    /* Slightly scale up */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Add shadow */
+}
+
 .icon-card-a {
     background-image: url(image.jpg);
     background-color: #f1f1f1;

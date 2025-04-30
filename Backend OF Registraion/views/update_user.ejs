@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Information</title>
+    <link rel="stylesheet" href="style12.css">
+</head>
+
+<body>
+    <table class="doctor-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>full_name</th>
+                <th>email</th>
+                <th>dob</th>
+                <th>mobile</th>
+                <th>gender</th>
+                <th>occuptaion</th>
+                <th>id_number</th>
+                <th>issuance-authority</th>
+                <th>role</th>
+                <th>address</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% user.forEach(user => { %>
+            <tr>
+                <td><%=user.id %></td>
+                <td><%=user.full_name %></td>
+                <td><%= user.email %></td>
+                <td><%= user.date_of_birth %></td>
+                <td><%= user.mobile_number %></td>
+                <td><%= user.gender %></td>
+                <td><%= user.occupation %></td>
+                <td><%= user.id_number %></td>
+                <td><%= user.issuance_authority %></td>
+                <td><%= user.role %></td>
+                <td><%= user.address %></td>
+            </tr>
+            <% }); %>
+        </tbody>
+    </table>
+    <div class="form">
+        <h2>Update Information</h2>
+        <% if (typeof error !=='undefined' && error) { %>
+            <p class="error">
+                <%= error %>
+            </p>
+            <% } %>
+                <% if (typeof success !=='undefined' && success) { %>
+                    <p class="success">
+                        <%= success %>
+                    </p>
+                    <% } %>
+                        <input type="integer" placeholder="Enter User ID">
+                        <form action="/update-info" method="POST">
+                            <select id="attribute" name="attribute" onchange="showInput()">
+                                <option value="">Select Attribute</option>
+                                <option value="full_name">Full Name</option>
+                                <option value="email">Email</option>
+                                <option value="date_of_birth">Date of Birth</option>
+                                <option value="mobile_number">Mobile Number</option>
+                                <option value="gender">Gender</option>
+                                <option value="occupation">Occupation</option>
+                                <option value="id_number">ID Number</option>
+                                <option value="issuance_Authority">Issuance Authority</option>
+                                <option value="role">Role</option>
+                                <option value="address">Address</option>
+                                <option value="password">Password</option>
+                            </select>
+                            <div id="input-field">
+                                <input type="text" id="value" name="value" placeholder="Enter new value" required>
+                            </div>
+                            <button type="submit" class="submit-btn" id="submit-btn" disabled>Update</button>
+                        </form>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+
+</html>
