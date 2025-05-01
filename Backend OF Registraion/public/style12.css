@@ -103,3 +103,20 @@ input {
     margin: 8px 0;
     text-align: center;
 }
+.nav-container {
+    background-color: #2b2929;
+    display: flex;
+    justify-content: space-between;
+    padding: 12px;
+    color: white;
+    margin-top: 10px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+}
+.logo-link {
+    color: white;
+    text-decoration: none;
+}
