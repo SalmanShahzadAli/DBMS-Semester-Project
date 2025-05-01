@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Information</title>
+    <link rel="stylesheet" href="style12.css">
+</head>
+
+<body>
+    <table class="doctor-table">
+        <thead>
+            <tr>
+                <th>medicineid</th>
+                <th>name</th>
+                <th>price</th>
+                <th>stock_quantity</th>
+                <th>expiry-date</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% medicine.forEach(medicine=> { %>
+                <tr>
+                    <td>
+                        <%= medicine.medicineid %>
+                    </td>
+                    <td>
+                        <%= medicine.name %>
+                    </td>
+                    <td>
+                        <%= medicine.price %>
+                    </td>
+                    <td>
+                        <%= medicine.stock_quantity %>
+                    </td>
+                    <td>
+                        <%= medicine.expiry_date %>
+                    </td>
+                </tr>
+                <% }); %>
+        </tbody>
+    </table>
+    <div class="form">
+        <h2>Update Information</h2>
+        <% if (typeof error !=='undefined' && error) { %>
+            <p class="error">
+                <%= error %>
+            </p>
+            <% } %>
+                <% if (typeof success !=='undefined' && success) { %>
+                    <p class="success">
+                        <%= success %>
+                    </p>
+                    <% } %>
+                        <form action="/update-medicine-info" method="POST">
+                            <input name="id" type="number" placeholder="Enter User ID">
+                            <select id="attribute" name="attribute" onchange="showInput()">
+                                <option value="">Select Attribute</option>
+                                <option value="full_name">Name</option>
+                                <option value="price">Price</option>
+                                <option value="stock_quantity">Stock-Quantity</option>
+                                <option value="expiry_date">Expiry-Date</option>
+                            </select>
+                            <div id="input-field">
+                                <input type="text" id="value" name="value" placeholder="Enter new value" required>
+                            </div>
+                            <button type="submit" class="submit-btn" id="submit-btn" disabled>Update</button>
+                        </form>
+    </div>
+
+    <script src="script1.js"></script>
+</body>
+
+</html>

@@ -400,6 +400,26 @@ app.post("/update-info", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+app.post("/update-medicine-info", async (req, res) => {
+    const { id, attribute, value } = req.body;
+    try {
+        if (attribute === "full_name") {
+            await client.query("UPDATE medicines SET name = $1 WHERE medicineid = $2", [value, id]);
+        } else if (attribute === "price") {
+            await client.query("UPDATE medicines SET price = $1 WHERE medicineid = $2", [value, id]);
+        } else if (attribute === "stock_quantity") {
+            await client.query("UPDATE medicines SET stock_quantity = $1 WHERE medicineid = $2", [value, id]);
+        } else if (attribute === "expiry_date") {
+            await client.query("UPDATE medicines SET expiry_date = $1 WHERE medicineid = $2", [value, id]);
+        } else {
+            return res.status(400).json({ message: "Invalid attribute selected" });
+        }
+        res.redirect('/update-medicine');
+    } catch (err) {
+        console.error("Error updating medicine info:", err);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
 app.get("/go-to-doctors", async (req, res) => {
     try {
         const query = `SELECT * FROM doctors`;
@@ -475,6 +495,16 @@ app.get("/update-users", async (req, res) => {
         res.status(500).send("Server Error");
     }
 });
+app.get("/update-medicine", async (req, res) => {
+    try {
+        const query = "SELECT * FROM medicines ORDER BY medicineid ASC";
+        const result = await client.query(query);
+        res.render('update_medicine', { medicine: result.rows });
+    } catch (err) {
+        console.error("Error fetching data:", err);
+        res.status(500).send("Server Error");
+    }
+})
 app.get("/update-info", (req, res) => {
     res.render('select-table');
 })
