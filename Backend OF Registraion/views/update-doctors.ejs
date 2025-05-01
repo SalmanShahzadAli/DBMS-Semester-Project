@@ -11,36 +11,28 @@
 <body>
     <div class="nav-container">
         <a href="/landing" class = "logo-link"><h2 class="logo">Giki Medical Center</h2></a>
-        <h2 class="page-info">Update Medicines</h2>
+        <h2 class="page-info">Update Doctors</h2>
     </div>
     <table class="doctor-table">
         <thead>
             <tr>
-                <th>medicineid</th>
-                <th>name</th>
-                <th>price</th>
-                <th>stock_quantity</th>
-                <th>expiry-date</th>
+                <th>Doctor ID</th>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Experience</th>
+                <th>Mobile Number</th>
+                <th>Email</th>
             </tr>
         </thead>
         <tbody>
-            <% medicine.forEach(medicine=> { %>
+            <% doctor.forEach(doctor => { %>
                 <tr>
-                    <td>
-                        <%= medicine.medicineid %>
-                    </td>
-                    <td>
-                        <%= medicine.name %>
-                    </td>
-                    <td>
-                        <%= medicine.price %>
-                    </td>
-                    <td>
-                        <%= medicine.stock_quantity %>
-                    </td>
-                    <td>
-                        <%= medicine.expiry_date %>
-                    </td>
+                    <td><%=doctor.doctor_id %></td>
+                    <td><%=doctor.name %></td>
+                    <td><%= doctor.specialization %></td>
+                    <td><%= doctor.experience %></td>
+                    <td><%= doctor.mobile_number %></td>
+                    <td><%= doctor.email %></td>
                 </tr>
                 <% }); %>
         </tbody>
@@ -57,14 +49,15 @@
                         <%= success %>
                     </p>
                     <% } %>
-                        <form action="/update-medicine-info" method="POST">
+                        <form action="/update-doctor-info" method="POST">
                             <input name="id" type="number" placeholder="Enter User ID">
                             <select id="attribute" name="attribute" onchange="showInput()">
                                 <option value="">Select Attribute</option>
                                 <option value="full_name">Name</option>
-                                <option value="price">Price</option>
-                                <option value="stock_quantity">Stock-Quantity</option>
-                                <option value="expiry_date">Expiry-Date</option>
+                                <option value="specialization">Specialization</option>
+                                <option value="experience">Experience</option>
+                                <option value="mobile_number">mobile-number</option>
+                                <option value="email">Email</option>
                             </select>
                             <div id="input-field">
                                 <input type="text" id="value" name="value" placeholder="Enter new value" required>
